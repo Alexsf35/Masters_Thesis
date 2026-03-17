@@ -1,0 +1,18 @@
+# Ignore raw STRING and PubMed data files (globally in any subfolder)
+**/data/string/*.txt
+**/data/string/processed/*.csv
+**/data/pubmed/*.csv
+
+# Ignore large XML metabolic models
+**/models/*.xml
+
+# BioCypher logs and temp files
+**/_inline_tmp/
+**/.biocypher/
+biocypher-log/
+
+# Python environment and cache
+__pycache__/
+*.pyc
+.env
+.venv/
