@@ -101,25 +101,25 @@ reaction in compartment:
 # Layer 2: PUBMED
 # ==========================================
 
-publication:
+pubmed_article:
+  is_a: publication
   represented_as: node
-  is_a: scholarly work
-  label_in_input: publication
+  label_in_input: pubmed_article
+  preferred_id: pmid
   properties:
+    pmid: str
     title: str
-    abstract: str
-    year: int
-    authors: str
     journal: str
+    pub_date: str
     doi: str
-    pubmed_url: str
+    authors: str
+    abstract: str
+    url: str
 
-mentioned in publication:
-  represented_as: edge
+biomedical_entity_has_literature:
   is_a: related to
-  label_in_input: mentioned_in_publication
-  source: named thing
-  target: publication
+  represented_as: edge
+  label_in_input: biomedical_entity_has_literature
 
 
 
@@ -179,41 +179,41 @@ entities:
 # ==========================================
 
 protein:
-  represented_as: node
   is_a: gene product
+  represented_as: node
   label_in_input: protein
+  preferred_id: id
   properties:
     name: str
     uniprot_id: str
     generic_annotations: str
-    # As propriedades dinâmicas do GO/UniProt não precisam 
-    # de estar hardcoded aqui, o Neo4j aceita-as na mesma.
 
-functional term:
-  represented_as: node
+functional_term:
   is_a: biological entity
+  represented_as: node
   label_in_input: functional_term
+  preferred_id: id
   properties:
     category: str
     description: str
 
 encodes:
-  represented_as: edge
   is_a: related to
+  represented_as: edge
   label_in_input: encodes
   source: model gene
   target: protein
 
-has functional annotation:
-  represented_as: edge
+has_functional_annotation:
   is_a: related to
+  represented_as: edge
   label_in_input: has_functional_annotation
   source: protein
-  target: functional term
+  target: functional_term
 
-interacts with:
+interacts_with:
+  is_a: pairwise molecular interaction
   represented_as: edge
-  is_a: interacts with
   label_in_input: interacts_with
   source: protein
   target: protein
