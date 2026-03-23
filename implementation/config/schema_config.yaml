@@ -120,7 +120,10 @@ biomedical_entity_has_literature:
   is_a: related to
   represented_as: edge
   label_in_input: biomedical_entity_has_literature
-
+  properties:
+    query: str
+    score: int
+    matched_on: str
 
 
 entities:

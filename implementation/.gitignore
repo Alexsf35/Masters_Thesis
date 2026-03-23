@@ -137,6 +137,7 @@ dmypy.json
 data/string/*.txt
 data/string/processed/*.csv
 data/pubmed/*.csv
+data/pubmed_cache.json
 
 # Ignore large XML models
 models/*.xml
