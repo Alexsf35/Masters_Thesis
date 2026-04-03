@@ -20,13 +20,12 @@ services:
       FILL_DB_ON_STARTUP: "yes"
     volumes:
       - biocypher_neo4j_volume:/data
-      # Atenção ao :z no final destas duas linhas!
-      - ./scripts/import.sh:/scripts/import.sh:z
-      - ./${IMPORT_DIR}:/data/build2neo:z
+      - ./scripts/import.sh:/scripts/import.sh:Z
+      - ./${IMPORT_DIR}:/data/build2neo:Z
     command:
       - /bin/bash
-      - /scripts/import.sh
-
+      - -c
+      - "/scripts/import.sh --report-file=/tmp/import.report"
   deploy:
     image: neo4j:4.4-enterprise
     user: "${UID}:${GID}"
@@ -39,9 +38,9 @@ services:
     ports:
       - "7474:7474"
       - "7687:7687"
-    depends_on:
-      import:
-        condition: service_completed_successfully
+    #depends_on:
+      #import:
+        #condition: service_completed_successfully
 
 volumes:
   biocypher_neo4j_volume:

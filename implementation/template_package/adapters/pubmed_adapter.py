@@ -42,9 +42,7 @@ class PubmedAdapter:
         title = (article.get("title") or "").lower()
         abstract = (abstract or "").lower()
 
-        if matched_on in {"uniprot", "ncbigene", "ecogene", "chebi", "hmdb", "kegg_compound", "kegg_reaction", "rhea", "biocyc"}:
-            score += 5
-
+        # 1. Pontuação Textual (Contexto)
         name = (props.get("name") or "").lower()
         if name and name in title: score += 3
         if name and name in abstract: score += 2
@@ -53,6 +51,15 @@ class PubmedAdapter:
         if organism and (organism in title or organism in abstract): score += 2
 
         if any(x in abstract for x in ["metabolism", "metabolic", "flux", "pathway", "enzyme"]): score += 1
+
+        # 2. Bónus de Identificador (Apenas se o contexto fizer sentido)
+        if matched_on in {"uniprot", "ncbigene", "ecogene", "chebi", "hmdb", "kegg_compound", "kegg_reaction", "rhea", "biocyc"}:
+            if score > 0:
+                # Só damos os 5 pontos extra se o texto já tiver alguma relação (organismo, nome ou contexto)
+                score += 5
+            else:
+                # Se o score for 0, é apenas um número perdido num DOI ou página. Damos 0 ou 1.
+                score += 1 
 
         return score
 
@@ -152,7 +159,7 @@ class PubmedAdapter:
                 
                 score = self._score_match(props, article, article["abstract"], matched_on)
                 if score >= self.min_score:
-                    # Guardamos o score, a query e o tipo de match na aresta!
+                    # Guardamos o score, a query e o tipo de match na aresta
                     edge_properties = {
                         "score": score,
                         "query": query,

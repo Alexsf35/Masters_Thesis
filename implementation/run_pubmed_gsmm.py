@@ -5,6 +5,7 @@ from biocypher import BioCypher
 
 from template_package.adapters.gsmm_adapter import GSMMAdapter
 from template_package.adapters.pubmed_adapter import PubmedAdapter
+from template_package.adapters.string_adapter import StringAdapter
 
 
 def main():
@@ -54,7 +55,17 @@ def main():
     )
 
     # --------------------------------------------------
-    # 5) Write graph
+    # 5) STRING Adapter (Protein-Protein Interactions)
+    # --------------------------------------------------
+    print("[info] Running STRING DB Adapter...")
+    adapter_string = StringAdapter(
+        gsmm_nodes=gsmm_nodes,
+        tax_id="511145",
+        min_score=900
+    )
+
+    # --------------------------------------------------
+    # 6) Write graph
     # --------------------------------------------------
 
     # GSMM layer
@@ -65,14 +76,17 @@ def main():
     bc.write_nodes(adapter_pubmed.get_nodes())
     bc.write_edges(adapter_pubmed.get_edges())
 
+    # STRING layer
+    bc.write_nodes(adapter_string.get_nodes())
+    bc.write_edges(adapter_string.get_edges())
+
     # --------------------------------------------------
-    # 6) Finalize
+    # 7) Finalize
     # --------------------------------------------------
     bc.write_import_call()
     #bc.summary()
 
     print("[ok] Graph creation completed.")
-
 
 if __name__ == "__main__":
     main()

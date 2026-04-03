@@ -188,8 +188,9 @@ protein:
   preferred_id: id
   properties:
     name: str
-    uniprot_id: str
-    generic_annotations: str
+    size: str
+    annotation: str
+    tax_id: str
 
 functional_term:
   is_a: biological entity
@@ -197,8 +198,8 @@ functional_term:
   label_in_input: functional_term
   preferred_id: id
   properties:
+    name: str
     category: str
-    description: str
 
 encodes:
   is_a: related to
@@ -206,6 +207,8 @@ encodes:
   label_in_input: encodes
   source: model gene
   target: protein
+  properties:
+    source: str
 
 has_functional_annotation:
   is_a: related to
@@ -221,12 +224,17 @@ interacts_with:
   source: protein
   target: protein
   properties:
-    combined_score: int
-    experimental_score: int
-    textmining_score: int
     neighborhood: int
+    neighborhood_transferred: int
     fusion: int
     cooccurence: int
     homology: int
     coexpression: int
+    coexpression_transferred: int
+    experiments: int
+    experiments_transferred: int
     database: int
+    database_transferred: int
+    textmining: int
+    textmining_transferred: int
+    combined_score: int
